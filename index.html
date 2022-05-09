@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
+		type="text/css">
+	<script src="https://unpkg.com/vue@3.2.33/dist/vue.global.js"></script>
+	<link rel="stylesheet" href="styles.css">
+	<title>Калькулятор гулянок и прочих массовых затей</title>
+</head>
+
+<body>
+	<main id="app">
+		<section class="">
+			<p>
+				<span class="btn primary" @click="addNewPerosn()" class="hover">Add new person</b>
+			</p>
+			<table>
+				<thead>
+					<tr>
+						<th>№</th>
+						<th>Person name</th>
+						<th v-for="p in data.products">{{p.name}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="person, k in data.persons">
+						<td>{{k + 1}}</td>
+						<td>
+							<input type="text" v-model="person.name" placeholder="Person Name">
+						</td>
+						<td v-for="p in data.products">{{personCalsValues(person, p)}}</th>
+					</tr>
+				</tbody>
+			</table>
+
+			<p><span class="btn primary" @click="addNewProduct()" class="hover">Add new product</b></p>
+
+			<table>
+				<thead>
+					<tr>
+						<th>№</th>
+						<th>Name</th>
+						<th>Count</th>
+						<th>Price</th>
+						<th>Units</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="product, k in data.products">
+						<td>{{k + 1}}</td>
+						<td><input type="text" v-model="product.name" placeholder="Name"></td>
+						<td><input type="number" v-model="product.count" placeholder="Count" min="0"></td>
+						<td><input type="number" v-model="product.price" placeholder="Price" min="0"></td>
+						<td><input type="text" v-model="product.units" placeholder="units"></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+	<footer></footer>
+	<script>
+		const { createApp } = Vue;
+		createApp({
+			data() {
+				return {
+					data: {
+						persons: [],
+						products: [],
+					}
+				}
+			},
+			created() {
+				let data = JSON.parse(localStorage.getItem('data'));
+			},
+			methods: {
+				addNewPerosn() {
+					this.data.persons.push({ name: '' });
+				},
+				addNewProduct() {
+					this.data.products.push({ name: '', count: 0, price: 0, units: '' });
+				},
+				personCalsValues(person, product) {
+					let count = product.count / this.data.persons.length;
+					let price = product.count * product.price / this.data.persons.length;
+					return count.toFixed(2) + ' ' + product.units + ' / ' + price.toFixed(2) + '₽';
+				},
+			}
+		}).mount('#app')
+	</script>
+</body>
+
+</html>

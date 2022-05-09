@@ -1,0 +1,61 @@
+html,
+body {
+  min-height: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+main table {
+  border-collapse: collapse;
+}
+main table thead tr {
+  background-color: #1a1a1a;
+}
+main table thead tr th {
+  color: aliceblue;
+  padding: 0.5rem;
+}
+main table tbody tr:nth-child(even) td {
+  color: #1a1a1a;
+}
+main table tbody tr:nth-child(odd) {
+  background-color: #d1d1d1;
+}
+main table tbody tr td {
+  padding: 0.25rem 0.5rem;
+}
+main table tbody tr td input {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #474747;
+  outline: none;
+  background: transparent;
+  border-color: transparent;
+}
+main table tbody tr td input:focus {
+  border-color: #c7751e;
+  box-shadow: 0 0 2px #a15e18;
+}
+.hover {
+  cursor: pointer;
+}
+.btn {
+  padding: 0 1rem;
+  margin: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  border-color: #666666;
+  box-shadow: 0 0 10px #a15e18;
+  cursor: pointer;
+  height: 32px;
+  color: antiquewhite;
+}
+.btn.primary {
+  background-color: #c7751e;
+  transition: all 0.5s ease-in-out;
+}
+.btn:hover {
+  opacity: 0.8;
+  box-shadow: 0 5px 10px #7c4a15;
+}
