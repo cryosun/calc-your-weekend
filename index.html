@@ -7,19 +7,19 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
 		type="text/css">
 	<script src="https://unpkg.com/vue@3.2.33/dist/vue.global.js"></script>
-	<link rel="stylesheet" href="styles.css">
+	<style>body,html{min-height:100%;font-family:sans-serif;font-size:14px}main table{border-collapse:collapse}main table thead tr{background-color:#1a1a1a}main table thead tr th{color:#f0f8ff;padding:.5rem}main table tbody tr:nth-child(even) td{color:#1a1a1a}main table tbody tr:nth-child(odd){background-color:#d1d1d1}main table tbody tr td{padding:.25rem .5rem}main table tbody tr td input{padding:.25rem .5rem;border-radius:4px;border:1px solid #474747;outline:0;background:0 0;border-color:transparent}main table tbody tr td input:focus{border-color:#c7751e;box-shadow:0 0 2px #a15e18}main table tbody tr td .calc-item-pay{padding:.2rem;border-radius:4px;background-color:#fff;outline:1px solid #dbd7d7;cursor:pointer;display:flex}main table tbody tr td .calc-item-pay:hover{background-color:#99b78e}.hover{cursor:pointer}.btn{padding:0 1rem;margin:.5rem;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;border-color:#666;box-shadow:0 0 10px #a15e18;cursor:pointer;height:32px;color:#faebd7}.btn.primary{background-color:#c7751e;transition:all .5s ease-in-out}.btn:hover{opacity:.8;box-shadow:0 5px 10px #7c4a15}</style>
 	<title>Калькулятор гулянок и прочих массовых затей</title>
 </head>
 
 <body>
 	<main id="app">
 		<section class="">
-			<p><span class="btn primary" @click="addNewPerosn()" class="hover">Add new person</b></p>
+			<p><span class="btn primary" @click="addNewPerosn()" class="hover">Добавить участника</b></p>
 			<table>
 				<thead>
 					<tr>
 						<th>№</th>
-						<th>Person name</th>
+						<th>Имя участника</th>
 						<th v-for="p in data.products">{{p.name}}</th>
 					</tr>
 				</thead>
@@ -27,7 +27,7 @@
 					<tr v-for="person, personKey in data.persons">
 						<td>{{personKey + 1}}</td>
 						<td>
-							<input type="text" v-model="person.name" placeholder="Person Name">
+							<input type="text" v-model="person.name" placeholder="Имя участника">
 						</td>
 						<td v-for="product, productKey in data.products" @click="toggleUse(personKey, productKey)">
 							<span class="calc-item-pay">
@@ -38,24 +38,24 @@
 				</tbody>
 			</table>
 
-			<p><span class="btn primary" @click="addNewProduct()" class="hover">Add new product</b></p>
+			<p><span class="btn primary" @click="addNewProduct()" class="hover">Добавить продукцию</b></p>
 			<table>
 				<thead>
 					<tr>
 						<th>№</th>
-						<th>Name</th>
-						<th>Count</th>
-						<th>Price</th>
-						<th>Units</th>
+						<th>Название</th>
+						<th>Кол-во</th>
+						<th>Цена</th>
+						<th>ед.изм.</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="product, k in data.products">
 						<td>{{k + 1}}</td>
-						<td><input type="text" v-model="product.name" placeholder="Name"></td>
-						<td><input type="number" v-model="product.count" placeholder="Count" min="0"></td>
-						<td><input type="number" v-model="product.price" placeholder="Price" min="0"></td>
-						<td><input type="text" v-model="product.units" placeholder="units"></td>
+						<td><input type="text" v-model="product.name" placeholder="Название"></td>
+						<td><input type="number" v-model="product.count" placeholder="Кол-во" min="0"></td>
+						<td><input type="number" v-model="product.price" placeholder="Цена" min="0"></td>
+						<td><input type="text" v-model="product.units" placeholder="ед.изм."></td>
 					</tr>
 				</tbody>
 			</table>

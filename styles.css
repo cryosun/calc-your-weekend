@@ -42,8 +42,6 @@ main table tbody tr td .calc-item-pay {
   outline: 1px solid #dbd7d7;
   cursor: pointer;
   display: flex;
-  min-width: 50px;
-  height: 1rem;
 }
 main table tbody tr td .calc-item-pay:hover {
   background-color: #99b78e;
