@@ -35,6 +35,19 @@ main table tbody tr td input:focus {
   border-color: #c7751e;
   box-shadow: 0 0 2px #a15e18;
 }
+main table tbody tr td .calc-item-pay {
+  padding: 0.2rem;
+  border-radius: 4px;
+  background-color: #FFF;
+  outline: 1px solid #dbd7d7;
+  cursor: pointer;
+  display: flex;
+  min-width: 50px;
+  height: 1rem;
+}
+main table tbody tr td .calc-item-pay:hover {
+  background-color: #99b78e;
+}
 .hover {
   cursor: pointer;
 }

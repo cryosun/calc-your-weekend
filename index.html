@@ -14,9 +14,7 @@
 <body>
 	<main id="app">
 		<section class="">
-			<p>
-				<span class="btn primary" @click="addNewPerosn()" class="hover">Add new person</b>
-			</p>
+			<p><span class="btn primary" @click="addNewPerosn()" class="hover">Add new person</b></p>
 			<table>
 				<thead>
 					<tr>
@@ -26,18 +24,21 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="person, k in data.persons">
-						<td>{{k + 1}}</td>
+					<tr v-for="person, personKey in data.persons">
+						<td>{{personKey + 1}}</td>
 						<td>
 							<input type="text" v-model="person.name" placeholder="Person Name">
 						</td>
-						<td v-for="p in data.products">{{personCalsValues(person, p)}}</th>
+						<td v-for="product, productKey in data.products" @click="toggleUse(personKey, productKey)">
+							<span class="calc-item-pay">
+								{{personCalcValues(personKey, productKey)}}
+							</span>
+							</th>
 					</tr>
 				</tbody>
 			</table>
 
 			<p><span class="btn primary" @click="addNewProduct()" class="hover">Add new product</b></p>
-
 			<table>
 				<thead>
 					<tr>
@@ -82,11 +83,44 @@
 				addNewProduct() {
 					this.data.products.push({ name: '', count: 0, price: 0, units: '' });
 				},
-				personCalsValues(person, product) {
-					let count = product.count / this.data.persons.length;
-					let price = product.count * product.price / this.data.persons.length;
-					return count.toFixed(2) + ' ' + product.units + ' / ' + price.toFixed(2) + '₽';
+				personCalcValues(personKey, productKey) {
+					if (
+						this.data.persons[personKey].disabledProduct !== undefined
+						&& this.data.persons[personKey].disabledProduct[productKey] !== undefined
+					) {
+						return '0';
+					}
+					let personCount = this.getPerosnCountByProduct(productKey);
+					let product = this.data.products[productKey];
+					let count = product.count / personCount;
+					let price = product.count * product.price / personCount;
+					return count.toFixed(2) + product.units + ' / ' + price.toFixed(2) + '₽';
 				},
+				toggleUse(personKey, productKey) {
+					if (this.data.persons[personKey].disabledProduct === undefined)
+						this.data.persons[personKey].disabledProduct = [];
+
+					if (this.data.persons[personKey].disabledProduct[productKey] !== undefined) {
+						for (let i in this.data.persons[personKey].disabledProduct) {
+							delete this.data.persons[personKey].disabledProduct[productKey];
+						}
+					} else {
+						this.data.persons[personKey].disabledProduct[productKey] = true;
+					}
+				},
+				getPerosnCountByProduct(productKey) {
+					let personCount = this.data.persons.length;
+					for (let i in this.data.persons) {
+						if (this.data.persons[i].disabledProduct === undefined) {
+							continue;
+						}
+						if (this.data.persons[i].disabledProduct[productKey] !== undefined) {
+							personCount--;
+						}
+					}
+
+					return personCount;
+				}
 			}
 		}).mount('#app')
 	</script>
