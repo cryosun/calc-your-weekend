@@ -7,20 +7,21 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
 		type="text/css">
 	<script src="https://unpkg.com/vue@3.2.33/dist/vue.global.js"></script>
-	<style>body,html{min-height:100%;font-family:sans-serif;font-size:14px}main table{border-collapse:collapse}main table thead tr{background-color:#1a1a1a}main table thead tr th{color:#f0f8ff;padding:.5rem}main table tbody tr:nth-child(even) td{color:#1a1a1a}main table tbody tr:nth-child(odd){background-color:#d1d1d1}main table tbody tr td{padding:.25rem .5rem}main table tbody tr td input{padding:.25rem .5rem;border-radius:4px;border:1px solid #474747;outline:0;background:0 0;border-color:transparent}main table tbody tr td input:focus{border-color:#c7751e;box-shadow:0 0 2px #a15e18}main table tbody tr td .calc-item-pay{padding:.2rem;border-radius:4px;background-color:#fff;outline:1px solid #dbd7d7;cursor:pointer;display:flex}main table tbody tr td .calc-item-pay:hover{background-color:#99b78e}.hover{cursor:pointer}.btn{padding:0 1rem;margin:.5rem;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;border-color:#666;box-shadow:0 0 10px #a15e18;cursor:pointer;height:32px;color:#faebd7}.btn.primary{background-color:#c7751e;transition:all .5s ease-in-out}.btn:hover{opacity:.8;box-shadow:0 5px 10px #7c4a15}</style>
+	<link rel="stylesheet" href="styles.css">
 	<title>Калькулятор гулянок и прочих массовых затей</title>
 </head>
 
 <body>
 	<main id="app">
 		<section class="">
-			<p><span class="btn primary" @click="addNewPerosn()" class="hover">Добавить участника</b></p>
+			<p><span class="btn cyan" @click="addNewPerosn()" class="hover">Добавить участника</b></p>
 			<table>
 				<thead>
 					<tr>
 						<th>№</th>
 						<th>Имя участника</th>
 						<th v-for="p in data.products">{{p.name}}</th>
+						<th>Итого</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -28,17 +29,19 @@
 						<td>{{personKey + 1}}</td>
 						<td>
 							<input type="text" v-model="person.name" placeholder="Имя участника">
+							<span class="delete" title="удалить" @click="deletePerson(personKey)">&#10006;</span>
 						</td>
 						<td v-for="product, productKey in data.products" @click="toggleUse(personKey, productKey)">
 							<span class="calc-item-pay">
 								{{personCalcValues(personKey, productKey)}}
 							</span>
-							</th>
+						</td>
+						<td>{{personPay(personKey)}}</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<p><span class="btn primary" @click="addNewProduct()" class="hover">Добавить продукцию</b></p>
+			<p><span class="btn cyan" @click="addNewProduct()" class="hover">Добавить продукцию</b></p>
 			<table>
 				<thead>
 					<tr>
@@ -52,7 +55,10 @@
 				<tbody>
 					<tr v-for="product, k in data.products">
 						<td>{{k + 1}}</td>
-						<td><input type="text" v-model="product.name" placeholder="Название"></td>
+						<td>
+							<input type="text" v-model="product.name" placeholder="Название">
+							<span class="delete" title="удалить" @click="deleteProduct(k)">&#10006;</span>
+						</td>
 						<td><input type="number" v-model="product.count" placeholder="Кол-во" min="0"></td>
 						<td><input type="number" v-model="product.price" placeholder="Цена" min="0"></td>
 						<td><input type="text" v-model="product.units" placeholder="ед.изм."></td>
@@ -62,6 +68,7 @@
 		</section>
 	</main>
 	<footer></footer>
-	<script>const{createApp:createApp}=Vue;createApp({data:()=>({data:{persons:[],products:[]}}),created(){let data=JSON.parse(localStorage.getItem("data"))},methods:{addNewPerosn(){this.data.persons.push({name:""})},addNewProduct(){this.data.products.push({name:"",count:0,price:0,units:""})},personCalcValues(personKey,productKey){if(void 0!==this.data.persons[personKey].disabledProduct&&void 0!==this.data.persons[personKey].disabledProduct[productKey])return"0";let personCount=this.getPerosnCountByProduct(productKey),product=this.data.products[productKey],count=product.count/personCount,price=product.count*product.price/personCount;return count.toFixed(2)+product.units+" / "+price.toFixed(2)+"₽"},toggleUse(personKey,productKey){if(void 0===this.data.persons[personKey].disabledProduct&&(this.data.persons[personKey].disabledProduct=[]),void 0!==this.data.persons[personKey].disabledProduct[productKey])for(let i in this.data.persons[personKey].disabledProduct)delete this.data.persons[personKey].disabledProduct[productKey];else this.data.persons[personKey].disabledProduct[productKey]=!0},getPerosnCountByProduct(productKey){let personCount=this.data.persons.length;for(let i in this.data.persons)void 0!==this.data.persons[i].disabledProduct&&void 0!==this.data.persons[i].disabledProduct[productKey]&&personCount--;return personCount}}}).mount("#app");</script>
+	<script src="prod.js"></script>
 </body>
+
 </html>
