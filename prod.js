@@ -1,5 +1,5 @@
 const { createApp } = Vue;
-createApp({
+let app_calc = {
 	data() {
 		return {
 			data: {
@@ -8,8 +8,12 @@ createApp({
 			}
 		}
 	},
-	created() {
-		let data = JSON.parse(localStorage.getItem('data'));
+	mounted() {
+		fetch('http://e91965tr.bget.ru/calc-your-weekend/get_model.php')
+		.then(response => response.json())
+		.then(
+			data => this.data = data
+		);
 	},
 	methods: {
 		addNewPerosn() {
@@ -42,6 +46,7 @@ createApp({
 			} else {
 				this.data.persons[personKey].disabledProduct[productKey] = true;
 			}
+			console.log(this.data.persons[personKey].disabledProduct);
 		},
 		getPerosnCountByProduct(productKey) {
 			let personCount = this.data.persons.length;
@@ -53,7 +58,6 @@ createApp({
 					personCount--;
 				}
 			}
-
 			return personCount;
 		},
 		deleteProduct(productKey) {
@@ -62,8 +66,18 @@ createApp({
 		deletePerson(personKey) {
 			this.data.persons.splice(personKey, 1)
 		},
-		personPay() {
-
+		save() {
+			console.log(this.data);
+			const requestOptions = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(this.data)
+			};
+			fetch('http://e91965tr.bget.ru/calc-your-weekend/save.php', requestOptions).then(resp => {
+				console.log(resp.data);
+			});
 		}
 	}
-}).mount('#app')
+};
+const app = createApp(app_calc);
+app.mount('#app')

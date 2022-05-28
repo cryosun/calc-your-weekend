@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
 		type="text/css">
 	<script src="https://unpkg.com/vue@3.2.33/dist/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+		integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<link rel="stylesheet" href="styles.css">
 	<title>Калькулятор гулянок и прочих массовых затей</title>
 </head>
@@ -21,7 +24,6 @@
 						<th>№</th>
 						<th>Имя участника</th>
 						<th v-for="p in data.products">{{p.name}}</th>
-						<th>Итого</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -36,7 +38,6 @@
 								{{personCalcValues(personKey, productKey)}}
 							</span>
 						</td>
-						<td>{{personPay(personKey)}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -65,6 +66,11 @@
 					</tr>
 				</tbody>
 			</table>
+
+			<br>
+			<div>
+				<button class="btn primary" @click="save()">save</button>
+			</div>
 		</section>
 	</main>
 	<footer></footer>
