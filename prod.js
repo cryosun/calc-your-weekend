@@ -10,10 +10,10 @@ let app_calc = {
 	},
 	mounted() {
 		fetch('http://e91965tr.bget.ru/calc-your-weekend/get_model.php')
-		.then(response => response.json())
-		.then(
-			data => this.data = data
-		);
+			.then(response => response.json())
+			.then(
+				data => this.data = data
+			);
 	},
 	methods: {
 		addNewPerosn() {
@@ -40,9 +40,7 @@ let app_calc = {
 				this.data.persons[personKey].disabledProduct = [];
 
 			if (this.data.persons[personKey].disabledProduct[productKey] !== undefined) {
-				for (let i in this.data.persons[personKey].disabledProduct) {
-					delete this.data.persons[personKey].disabledProduct[productKey];
-				}
+				delete this.data.persons[personKey].disabledProduct[productKey];
 			} else {
 				this.data.persons[personKey].disabledProduct[productKey] = true;
 			}
@@ -54,11 +52,19 @@ let app_calc = {
 				if (this.data.persons[i].disabledProduct === undefined) {
 					continue;
 				}
-				if (this.data.persons[i].disabledProduct[productKey] !== undefined) {
+				if (this.inArray(this.data.persons[i].disabledProduc,productKey)) {
 					personCount--;
 				}
 			}
 			return personCount;
+		},
+		inArray(obj, k) {
+			for (let i in obj) {
+				if (i === k)
+					return true;
+			}
+
+			return false;
 		},
 		deleteProduct(productKey) {
 			this.data.products.splice(productKey, 1)
@@ -67,7 +73,6 @@ let app_calc = {
 			this.data.persons.splice(personKey, 1)
 		},
 		save() {
-			console.log(this.data);
 			const requestOptions = {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
