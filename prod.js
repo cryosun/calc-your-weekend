@@ -23,13 +23,20 @@ let app_calc = {
 	},
 	methods: {
 		addNewPerosn() {
-			this.data.persons.push({ name: '' });
+			let disabledProduct = [];
+			for (let productKey in this.data.products) {
+				disabledProduct.push(parseInt(productKey));
+			}
+			this.data.persons.push({ name: '', disabledProduct });
+			console.log(this.data.persons);
 		},
 		addNewProduct() {
 			this.data.products.push({ name: '', count: 0, price: 0, units: '' });
 		},
 		personCalcValues(personKey, productKey) {
-			if (this.data.persons[personKey].disabledProduct !== undefined && !this.inArray(this.data.persons[personKey].disabledProduct, productKey)) {
+			if (this.data.persons[personKey].disabledProduct !== undefined
+				&& !this.inArray(this.data.persons[personKey].disabledProduct, productKey)
+			) {
 				// Сформируем массив цен по продуктам для песроны
 				this.price.persons[personKey.toString() + '-' + productKey] = 0;
 				return '0';
@@ -99,6 +106,15 @@ let app_calc = {
 			for (let i in this.data.products) {
 				if (this.price.persons[personKey.toString() + '-' + i] !== undefined)
 					summ += this.price.persons[personKey.toString() + '-' + i];
+			}
+
+			return summ.toFixed(2);
+		},
+		prodcutSumm(productKey) {
+			let summ = 0;
+			for (let i in this.data.persons) {
+				if (this.price.persons[i + '-' + productKey] !== undefined)
+					summ += this.price.persons[i + '-' + productKey];
 			}
 
 			return summ.toFixed(2);

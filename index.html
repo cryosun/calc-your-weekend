@@ -40,6 +40,11 @@
 						</td>
 						<td v-html="personeSumm(personKey)" class="summ"></td>
 					</tr>
+					<tr>
+						<td colspan="2">Итого:</td>
+						<td v-for="product, productKey in data.products" v-html="prodcutSumm(productKey)"></td>
+						<td class="total-summ"></td>
+					</tr>
 				</tbody>
 			</table>
 
