@@ -9,8 +9,7 @@ let app_calc = {
 			price: {
 				persons: {},
 				products: {},
-				totalPersons: 0,
-				totalProducts: 0
+				total: 0
 			}
 		}
 	},
@@ -118,6 +117,14 @@ let app_calc = {
 			}
 
 			return summ.toFixed(2);
+		},
+		totalSumm() {
+			let total = 0;
+			for (let i in this.data.products) {
+				total += parseInt(this.prodcutSumm(i));
+			}
+
+			return total.toFixed(2);
 		}
 	}
 };

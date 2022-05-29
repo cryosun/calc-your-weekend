@@ -10,7 +10,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
 		integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles.min.css">
 	<title>Калькулятор гулянок и прочих массовых затей</title>
 </head>
 
@@ -24,7 +24,7 @@
 						<th>№</th>
 						<th>Имя участника</th>
 						<th v-for="p in data.products">{{p.name}}</th>
-						<th>summ</th>
+						<th>Итого</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,7 +43,7 @@
 					<tr>
 						<td colspan="2">Итого:</td>
 						<td v-for="product, productKey in data.products" v-html="prodcutSumm(productKey)"></td>
-						<td class="total-summ"></td>
+						<td class="total-summ" v-html="totalSumm()"></td>
 					</tr>
 				</tbody>
 			</table>
