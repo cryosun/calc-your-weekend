@@ -5,21 +5,31 @@ body {
     font-size: 14px;
 }
 
+html {
+    background-color: #373737;
+}
+
 main {
     table {
         border-collapse: collapse;
         border-radius: 8px;
         overflow: hidden;
         min-width: 50%;
+        background: silver;
+
+        @media(max-width: 1024px) {
+            min-width: 100%;
+        }
 
         thead {
+            background-color: dimgrey;
+
             tr {
-                background-color: rgb(53, 53, 53);
+                background-color: dimgrey;
 
                 th {
                     color: aliceblue;
                     padding: .5rem;
-                    border: 1px solid #bcbcbc;
                 }
             }
         }
@@ -41,13 +51,18 @@ main {
                     box-shadow: inset 0 0 1px #333;
                     border-radius: 0 0 7px 7px;
 
+                    td {}
+                }
+
+                &:hover {
                     td {
-                        
+                        background-color: #9d9d9d;
                     }
                 }
 
                 td {
                     padding: .25rem .5rem;
+                    white-space: nowrap;
 
                     &.first-child {
                         border-right: 1px solid #bcbcbc;
@@ -72,7 +87,13 @@ main {
                         border-radius: 2px;
                         cursor: pointer;
                         display: flex;
-                    
+
+                        sub {
+                            align-self: flex-end;
+                            margin: 0 1px 0;
+                            color: crimson;
+                        }
+
                         &:hover {
                             background-color: #606060;
                             color: white;
@@ -86,6 +107,10 @@ main {
                             color: red;
                         }
                     }
+
+                    &.summ {
+                        font-weight: 600;
+                    }
                 }
             }
         }
@@ -98,7 +123,6 @@ main {
 
 .btn {
     padding: 0 1rem;
-    margin: .5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;

@@ -24,6 +24,7 @@
 						<th>№</th>
 						<th>Имя участника</th>
 						<th v-for="p in data.products">{{p.name}}</th>
+						<th>summ</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,10 +35,10 @@
 							<span class="delete" title="удалить" @click="deletePerson(personKey)">&#10006;</span>
 						</td>
 						<td v-for="product, productKey in data.products" @click="toggleUse(personKey, productKey)">
-							<span class="calc-item-pay">
-								{{personCalcValues(personKey, productKey)}}
+							<span class="calc-item-pay" v-html="personCalcValues(personKey, productKey)">
 							</span>
 						</td>
+						<td v-html="personeSumm(personKey)" class="summ"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -69,7 +70,7 @@
 
 			<br>
 			<div>
-				<button class="btn primary" @click="save()">save</button>
+				<button class="btn primary" @click="save()">Сохранить</button>
 			</div>
 		</section>
 	</main>

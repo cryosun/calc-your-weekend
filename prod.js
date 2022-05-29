@@ -5,6 +5,12 @@ let app_calc = {
 			data: {
 				persons: [],
 				products: [],
+			},
+			price: {
+				persons: {},
+				products: {},
+				totalPersons: 0,
+				totalProducts: 0
 			}
 		}
 	},
@@ -23,45 +29,51 @@ let app_calc = {
 			this.data.products.push({ name: '', count: 0, price: 0, units: '' });
 		},
 		personCalcValues(personKey, productKey) {
-			if (
-				this.data.persons[personKey].disabledProduct !== undefined
-				&& this.data.persons[personKey].disabledProduct[productKey] !== undefined
-			) {
+			if (this.data.persons[personKey].disabledProduct !== undefined && !this.inArray(this.data.persons[personKey].disabledProduct, productKey)) {
+				// Сформируем массив цен по продуктам для песроны
+				this.price.persons[personKey.toString() + '-' + productKey] = 0;
 				return '0';
 			}
 			let personCount = this.getPerosnCountByProduct(productKey);
 			let product = this.data.products[productKey];
 			let count = product.count / personCount;
 			let price = product.count * product.price / personCount;
-			return count.toFixed(2) + product.units + ' / ' + price.toFixed(2) + '₽';
+
+			// Сформируем массив цен по продуктам для песроны
+			this.price.persons[personKey.toString() + '-' + productKey] = price;
+
+			return count.toFixed(2) + '<sub>' + product.units + '</sub> / ' + price.toFixed(2) + '₽';
 		},
 		toggleUse(personKey, productKey) {
 			if (this.data.persons[personKey].disabledProduct === undefined)
 				this.data.persons[personKey].disabledProduct = [];
 
-			if (this.data.persons[personKey].disabledProduct[productKey] !== undefined) {
-				delete this.data.persons[personKey].disabledProduct[productKey];
+			if (this.inArray(this.data.persons[personKey].disabledProduct, productKey)) {
+				for (let i in this.data.persons[personKey].disabledProduct) {
+					if (this.data.persons[personKey].disabledProduct[i] === productKey) {
+						this.data.persons[personKey].disabledProduct.splice(i, 1);
+					}
+				}
 			} else {
-				this.data.persons[personKey].disabledProduct[productKey] = true;
+				this.data.persons[personKey].disabledProduct.push(productKey);
 			}
-			console.log(this.data.persons[personKey].disabledProduct);
 		},
 		getPerosnCountByProduct(productKey) {
 			let personCount = this.data.persons.length;
 			for (let i in this.data.persons) {
-				if (this.data.persons[i].disabledProduct === undefined) {
+				if (this.data.persons[i].disabledProduct === undefined)
 					continue;
-				}
-				if (this.inArray(this.data.persons[i].disabledProduc,productKey)) {
+
+				if (this.inArray(this.data.persons[i].disabledProduct, productKey) === false)
 					personCount--;
-				}
 			}
 			return personCount;
 		},
 		inArray(obj, k) {
 			for (let i in obj) {
-				if (i === k)
-					return true;
+				if (obj[i] === k) {
+					return i;
+				}
 			}
 
 			return false;
@@ -81,6 +93,15 @@ let app_calc = {
 			fetch('http://e91965tr.bget.ru/calc-your-weekend/save.php', requestOptions).then(resp => {
 				console.log(resp.data);
 			});
+		},
+		personeSumm(personKey) {
+			let summ = 0;
+			for (let i in this.data.products) {
+				if (this.price.persons[personKey.toString() + '-' + i] !== undefined)
+					summ += this.price.persons[personKey.toString() + '-' + i];
+			}
+
+			return summ.toFixed(2);
 		}
 	}
 };
